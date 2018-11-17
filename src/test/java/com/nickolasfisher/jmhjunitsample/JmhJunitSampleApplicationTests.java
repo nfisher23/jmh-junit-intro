@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertTrue;
+
 public class JmhJunitSampleApplicationTests {
 
     @Test
@@ -22,9 +24,9 @@ public class JmhJunitSampleApplicationTests {
                 .include(this.getClass().getName() + ".*")
                 .mode(Mode.AverageTime)
                 .warmupTime(TimeValue.seconds(1))
-                .warmupIterations(2)
+                .warmupIterations(6)
                 .threads(1)
-                .measurementIterations(2)
+                .measurementIterations(6)
                 .forks(1)
                 .shouldFailOnError(true)
                 .shouldDoGC(true)
@@ -45,6 +47,7 @@ public class JmhJunitSampleApplicationTests {
                 hellos += "\n";
             }
         }
+        assertTrue(hellos.startsWith((hello + "\n")));
     }
 
     @Benchmark
@@ -57,5 +60,6 @@ public class JmhJunitSampleApplicationTests {
                 hellosBuilder.append("\n");
             }
         }
+        assertTrue(hellosBuilder.toString().startsWith((hello + "\n")));
     }
 }
